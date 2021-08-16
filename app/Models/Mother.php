@@ -98,7 +98,7 @@ class Mother extends Model
 
 
 
-     return response()->json(['mother' => $mother], 201);
+     return response()->json(['mother' => $mother], 201);,
  }
 
 
