@@ -17,12 +17,12 @@ class CreateAppointmentsTable extends Migration
             $table->id();
             $table->boolean('booking_status');
             $table->double('price');
-            $table->string('location');
-            $table->double('longitude');
-            $table->double('latitude');
+           // $table->string('location');
+            //$table->double('longitude');
+            //$table->double('latitude');
             $table->date('date');
             $table->time('time');
-            $table->integer('mother_id');
+            $table->integer('mother_id')->nullable();
             $table->integer('midwife_id');
             $table->timestamps();
             $table->softDeletes();

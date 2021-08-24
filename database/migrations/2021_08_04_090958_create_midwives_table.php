@@ -17,7 +17,7 @@ class CreateMidwivesTable extends Migration
             $table->id();
             $table->string('qualifications');
             $table->string('working_status');
-            $table->integer('user_id');
+            $table->integer('user_id')->unique();
             $table->timestamps();
             $table->softDeletes();
         });

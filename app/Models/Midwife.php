@@ -58,7 +58,7 @@ public function user(){
      $validator = Validator::make($request->all(), [
          'qualifications' => 'required',
          'working_status' => 'required',
-         'user_id' => 'required',
+         'user_id' => 'required|unique:midwives',
          
      ]);
 
@@ -66,8 +66,32 @@ public function user(){
          return response()->json(['error' => $validator->errors()]);
      }
 
+
+
+
+
+
+
+$user = User::find($request->user_id);
+if(!$user)
+ return response()->json(['error'=>'user does not exist']);
+
+
+
+
+
+
+$midwife=new Midwife();
+$midwife->qualifications=$request->qualifications;
+$midwife->working_status=$request->working_status;
+
+//way to save using eloquent relations
+$user->midwife()->save($midwife);
+$user->midwife;
+
+return response()->json(['user'=>$user]);
      //creating a midwife
-     $midwife = Midwife::create(
+    /* $midwife = Midwife::create(
          [
              'qualifications' => $request->qualifications,
              'working_status' => $request->working_status,
@@ -76,6 +100,7 @@ public function user(){
          ]
      );
      return response()->json(['midwife' => $midwife], 201);
+     */
  }
 
 

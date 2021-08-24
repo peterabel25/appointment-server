@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaymentsTable extends Migration
+class CreateLocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreatePaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->string('status_disbursement');
-            $table->integer('appointment_id')->unique();
-            $table->timestamps();
+            $table->string('physical_address');
+            $table->double('longitude');
+            $table->double('latitude');
+            $table->integer('user_id');
             $table->softDeletes();
-            
-
+            $table->timestamps();
         });
     }
 
@@ -31,6 +31,6 @@ class CreatePaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('locations');
     }
 }

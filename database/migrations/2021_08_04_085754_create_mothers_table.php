@@ -17,7 +17,7 @@ class CreateMothersTable extends Migration
             $table->id();
             $table->date('date_of_birth');
             $table->integer('gravida');
-            $table->integer('user_id');
+            $table->integer('user_id')->unique();
             $table->timestamps();
             $table->softDeletes();
         });

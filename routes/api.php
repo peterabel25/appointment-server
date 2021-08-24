@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MidwifeController;
 use App\Http\Controllers\MotherController;
 use App\Http\Controllers\PaymentController;
@@ -85,8 +86,6 @@ Route::put('payment/{paymentId}',[PaymentController::class,'putPayment']);
 
 Route::get('users', [ UserController::class,'getUsers']);
 
-Route::post('user',[UserController::class,'postUser']);
-
 Route::post('register',[UserController::class,'register']);
 
 Route::get('user/{userId}', [ UserController::class,'getUser']);
@@ -94,4 +93,16 @@ Route::get('user/{userId}', [ UserController::class,'getUser']);
 Route::delete('user/{userId}', [ UserController::class,'deleteUser']);
 
 Route::put('user/{userId}',[UserController::class,'putUser']);
+
+//location routes
+
+Route::get('locations', [ LocationController::class,'getLocations']);
+
+Route::post('location',[LocationController::class,'postLocation']);
+
+Route::get('location/{locationId}', [ LocationController::class,'getLocation']);
+
+Route::delete('location/{locationId}', [ LocationController::class,'deleteLocation']);
+
+Route::put('location/{locationId}',[LocationController::class,'putLocation']);
 

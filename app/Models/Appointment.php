@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class Appointment extends Model
 {
 
-    protected $fillable = ['booking_status', 'price', 'location', 'longitude', 'latitude', 'date', 'time', 'mother_id', 'midwife_id'];
+    protected $fillable = ['booking_status', 'price',  'date', 'time', 'mother_id', 'midwife_id'];
     protected $dates = ['date', 'deleted_at', 'created_at',];
     use HasFactory, softDeletes;
     //relations
@@ -73,9 +73,9 @@ class Appointment extends Model
         $validator = Validator::make($request->all(), [
             'booking_status' => 'required',
             'price' => 'required',
-            'location' => 'required',
-            'longitude' => 'required',
-            'latitude' => 'required',
+            //'location' => 'required',
+            //'longitude' => 'required',
+            //'latitude' => 'required',
             'date' => 'required',
             'time' => 'required',
             'mother_id' => 'required',
@@ -88,13 +88,43 @@ class Appointment extends Model
         }
 
         //creating an appointment
-        $appointment = Appointment::create(
+      
+        $midwife = Midwife::find($request->midwife_id);
+        if(!$midwife)
+         return response()->json(['error'=>'midwife does not exist']);
+        
+        
+        
+        
+        
+        
+        $appointment=new Appointment();
+        $appointment->booking_status=$request->booking_status;
+        $appointment->price=$request->price;
+        $appointment->date=$request->date;
+        $appointment->time=$request->time;
+    
+        $appointment->midwife_id=$request->midwife_id;
+        
+        
+        //way to save using eloquent relations
+        $midwife->appointments()->save($appointment);
+        $midwife->appointments;
+
+        
+        return response()->json(['appointment'=>$appointment]);
+   
+
+
+
+      
+      /*  $appointment = Appointment::create(
             [
                 'booking_status' => $request->booking_status,
                 'price' => $request->price,
-                'location' => $request->location,
-                'longitude' => $request->longitude,
-                'latitude' => $request->latitude,
+              //  'location' => $request->location,
+               // 'longitude' => $request->longitude,
+                //'latitude' => $request->latitude,
                 'date' => $request->date,
                 'time' => $request->time,
                 'mother_id' => $request->mother_id,
@@ -103,6 +133,7 @@ class Appointment extends Model
             ]
         );
         return response()->json(['appointment' => $appointment], 201);
+        */
     }
 
 
@@ -116,9 +147,9 @@ class Appointment extends Model
         $appointment->update ([
             'booking_status' => $request->booking_status,
             'price' => $request->price,
-            'location' => $request->location,
-            'longitude' => $request->longitude,
-            'latitude' => $request->latitude,
+            //'location' => $request->location,
+            //'longitude' => $request->longitude,
+            //'latitude' => $request->latitude,
             'date' => $request->date,
             'time' => $request->time,
             'mother_id' => $request->mother_id,

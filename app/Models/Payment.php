@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class Payment extends Model
 {
-    protected $fillable=['status_disbursement'];
+    protected $fillable=['status_disbursement','appointment_id'];
     protected $dates=['deleted_at','created_at',];
     use HasFactory,softDeletes;
 
@@ -56,7 +56,8 @@ class Payment extends Model
  {
      // taking the requests and validating(requsts,user defined rules)
      $validator = Validator::make($request->all(), [
-         'status_disbursement' => 'required'
+         'status_disbursement' => 'required',
+         'appointment_id'=>'required|unique:payments',
          
      ]);
 
@@ -65,13 +66,38 @@ class Payment extends Model
      }
 
      //creating an payment
-     $payment = Payment::create(
+     
+     
+     $appointment = Appointment::find($request->appointment_id);
+     if(!$appointment)
+      return response()->json(['error'=>'appointment does not exist']);
+     
+     
+     
+     
+     
+     
+     $payment=new Payment();
+     $payment->status_disbursement=$request->status_disbursement;
+     
+     
+     //way to save using eloquent relations
+     $appointment->payment()->save($payment);
+     $appointment->payment;
+     
+     return response()->json(['appointment'=>$appointment]);
+
+     
+     
+     
+     /*$payment = Payment::create(
          [
              'status_disbursement' => $request->status_disbursement,
-             
+             'appointment'=>$request->appointment_id,
          ]
      );
      return response()->json(['payment' => $payment], 201);
+     */
  }
 
 
@@ -85,6 +111,7 @@ class Payment extends Model
      $payment->update ([
         
         'status_disbursement' => $request->status_disbursement,
+'appointment_id'=>$request->appointment_id,
 
      ]);
 

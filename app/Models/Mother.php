@@ -25,6 +25,11 @@ class Mother extends Model
    }
 
 
+   public function bookings(){
+       return $this->hasMany(Booking::class);
+   }
+
+
  //FUNCTIONS/METHODS
 
  public function getMothers()
@@ -60,7 +65,7 @@ class Mother extends Model
      $validator = Validator::make($request->all(), [
          'date_of_birth' => 'required',
          'gravida' => 'required',
-         'user_id' => 'required',
+         'user_id' => 'required|unique:mothers',
          
      ]);
 
@@ -68,8 +73,30 @@ class Mother extends Model
          return response()->json(['error' => $validator->errors()]);
      }
 
+
+     $user = User::find($request->user_id);
+     if(!$user)
+      return response()->json(['error'=>'user does not exist']);
+     
+     
+     
+     
+     
+     
+     $mother=new Mother();
+     $mother->date_of_birth=$request->date_of_birth;
+     $mother->gravida=$request->gravida;
+     
+     //way to save using eloquent relations
+     $user->mother()->save($mother);
+     $user->mother;
+     
+     return response()->json(['user'=>$user]);
+
+
+
      //creating a mother
-     $mother = Mother::create(
+   /*  $mother = Mother::create(
          [
              'date_of_birth' => $request->date_of_birth,
              'gravida' => $request->gravida,
@@ -80,6 +107,8 @@ class Mother extends Model
      return response()->json(['mother' => $mother], 201);
  }
 
+*/
+ }
 
 
 
@@ -98,7 +127,7 @@ class Mother extends Model
 
 
 
-     return response()->json(['mother' => $mother], 201);,
+     return response()->json(['mother' => $mother], 201);
  }
 
 

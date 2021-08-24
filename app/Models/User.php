@@ -63,6 +63,7 @@ class User extends Authenticatable
     public function getUsers()
     {
         $users = User::all();
+        
         return response()->json(['users' => $users], 200);
     }
 
@@ -71,7 +72,7 @@ class User extends Authenticatable
         $user = User::find($userId);
         if (!$user)
             return response()->json(['error' => 'user not found'], 404);
-
+   $user->midwife;
 
         return response()->json(['user' => $user], 200);
     }
@@ -88,13 +89,13 @@ class User extends Authenticatable
     }
 
 
-    public function postUser(Request $request)
+   /* public function postUser(Request $request)
     {
         // taking the requests and validating(requsts,user defined rules)
         $validator = Validator::make($request->all(), [
             'phonenumber' => 'required',
             'username' => 'required',
-            'email' => 'required|unique:user',
+            'email' => 'required|unique:users',
 
             'password' => 'required',
 
@@ -119,7 +120,7 @@ class User extends Authenticatable
         );
         return response()->json(['user' => $user], 201);
     }
-
+*/
 
 
 
